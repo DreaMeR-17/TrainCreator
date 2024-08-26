@@ -157,7 +157,7 @@ namespace TrainCreator
 
     class Train
     {
-        private List<Wagon> _wagons;
+        private List<Wagon> _wagons = new List<Wagon>();
         private Direction _direction;
 
         public Train(Direction direction, List<Wagon> wagons)
