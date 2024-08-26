@@ -198,33 +198,20 @@ namespace TrainCreator
     }
 
     class Wagon
-    {
+    {      
         private int _maxPassengers;
-        private int _numberOfPassengers;
 
         public Wagon(int maxPassengers, int numberOfPassengers)
         {
             _maxPassengers = maxPassengers;
-            _numberOfPassengers = numberOfPassengers;
+            NumberOfPassengers = numberOfPassengers;
         }
 
-        public int NumberOfPassengers
-        {
-            get { return _numberOfPassengers; }
-            private set { _numberOfPassengers = value; }
-        }
+        public int NumberOfPassengers { get; set; }
 
         public int GetRemainingSeats()
         {
-            return _maxPassengers - _numberOfPassengers;
-        }
-
-        private int GetValidPassengers(int numberOfPassengers)
-        {
-            if (numberOfPassengers > _maxPassengers)
-                numberOfPassengers = _maxPassengers;
-
-            return numberOfPassengers;
+            return _maxPassengers - NumberOfPassengers;
         }
     }
 
