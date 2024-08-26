@@ -18,10 +18,7 @@ namespace TrainCreator
 
         public Game()
         {
-            int maxPassengersInWagon = 50;
-            int maxPassengersInTrain = 501;
-
-            _dispatcher = new Dispatcher(maxPassengersInWagon, maxPassengersInTrain);
+            _dispatcher = new Dispatcher();
         }
 
         public void Play()
@@ -48,7 +45,7 @@ namespace TrainCreator
                 switch (userInput)
                 {
                     case CommandAddTrain:
-                        _dispatcher.AddTrain();
+                        _dispatcher.CreateTrain();
                         break;
 
                     case CommandExit:
@@ -69,14 +66,8 @@ namespace TrainCreator
     {
         private List<Train> _trains = new List<Train>();
 
-        private int _maxPassengersInWagon;
-        private int _maxPassengersInTrain;
-
-        public Dispatcher(int maxPassengersInWagon, int maxPassengersInTrain)
-        {
-            _maxPassengersInWagon = maxPassengersInWagon;
-            _maxPassengersInTrain = maxPassengersInTrain;
-        }
+        private int _maxPassengersInWagon = 50;
+        private int _maxPassengersInTrain = 501;
 
         public void ShowTrains()
         {
@@ -90,9 +81,9 @@ namespace TrainCreator
             Console.WriteLine();
         }
 
-        public void AddTrain()
+        public void CreateTrain()
         {
-            Direction direction = GetDirection();
+            Direction direction = CreateDirection();
 
             int numberOfPassengers = GetRandomPassengers();
 
@@ -106,7 +97,7 @@ namespace TrainCreator
             _trains.Add(train);
         }
 
-        private Direction GetDirection()
+        private Direction CreateDirection()
         {
             string startDirection;
             string finishDirection;
@@ -169,10 +160,10 @@ namespace TrainCreator
         public override string ToString()
         {
             return $"Сформирован состав по маршруту {_direction} с количеством вагонов: {_wagons.Count}. " +
-                $"Количество занятых мест: {GetCountOfPassengers()}. Количество свободных мест: {GetRemainingSeats()}";
+                $"Количество занятых мест: {TakeCountOfPassengers()}. Количество свободных мест: {TakeRemainingSeats()}";
         }
 
-        private int GetCountOfPassengers()
+        private int TakeCountOfPassengers()
         {
             int passengers = 0;
 
@@ -184,13 +175,13 @@ namespace TrainCreator
             return passengers;
         }
 
-        private int GetRemainingSeats()
+        private int TakeRemainingSeats()
         {
             int remainingSeats = 0;
 
             foreach (var wagon in _wagons)
             {
-                remainingSeats += wagon.GetRemainingSeats();
+                remainingSeats += wagon.TakeRemainingSeats();
             }
 
             return remainingSeats;
@@ -207,9 +198,9 @@ namespace TrainCreator
             NumberOfPassengers = numberOfPassengers;
         }
 
-        public int NumberOfPassengers { get; set; }
+        public int NumberOfPassengers { get; private set; }
 
-        public int GetRemainingSeats()
+        public int TakeRemainingSeats()
         {
             return _maxPassengers - NumberOfPassengers;
         }
